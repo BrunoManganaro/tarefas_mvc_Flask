@@ -1,4 +1,3 @@
-from ast import Pass
 from datetime import datetime
 
 from tarefas.models.database import Database
@@ -40,9 +39,17 @@ class Tarefa:
     @staticmethod
     def apagarTarefas(id):
         novo_id = id[8:]
-        sql = f'DELETE FROM tarefa WHERE id_tarefa = {int(novo_id)}'
+        sql = f'DELETE FROM tarefa WHERE id_tarefa = {int(novo_id)};'
         with Database() as db:
             db.executar(sql)
+
+    @staticmethod
+    def editarTarefas(id, titulo, data):
+        novo_id = id[6:]
+        sql = 'UPDATE tarefa SET titulo_tarefa = %s, data_conclusao = %s WHERE id_tarefa = %s;'
+        params = (titulo, data, novo_id)
+        with Database() as db:
+            return(db.executar(sql, params))
 
 
 # Área 13 (testes)

@@ -7,20 +7,22 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Digite a tarefa e a data de conclusão:</h1>
+    <h1>{{ h1_pagina }}</h1>
 
     <form method="POST"> <!--Seleciona o método HTTP-->
         <input type="text" id="tituloTarefa" name="tituloTarefa">
         <input type="date" id="dataConclusao" name="dataConclusao">
-        <button type="submit">Adicionar</button> 
+        <button type="submit">{{ botao_submit }}</button>
+        <a href="/" style='{{ botao_voltar }}'>Voltar</a> 
     </form>
     <!-- <output id="listaTarefas">Nenhuma tarefa cadastrada</output> -->
 
-    <ul id="listaTarefas">
+    <ul id="listaTarefas" style="{{ lista }}">
         {% for tarefa in tarefas_da_pagina %}
             <li>
                 {{ tarefa.titulo_tarefa }} - {{ tarefa.data_conclusao }}
                 <a href="/delete/{{ tarefa.id_tarefa }}">Apagar</a> <!-- Link para a rota de apagar este ID -->
+                <a href="/edit/{{ tarefa.id_tarefa }}">Editar</a>
             </li>
         {% endfor %}
     </ul>
