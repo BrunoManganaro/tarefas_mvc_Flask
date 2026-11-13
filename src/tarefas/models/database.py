@@ -120,4 +120,4 @@ será lido e executado como string.
 #db = Database()
 #db.conectar()
 #print(db.executar("SELECT * FROM tipos_combustivel;"))
-#db.desconectar()'
+#db.desconectar()
