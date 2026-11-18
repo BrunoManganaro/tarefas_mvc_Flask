@@ -39,9 +39,37 @@ class Tarefa:
     @staticmethod
     def apagarTarefas(id):
         novo_id = id[8:]
-        sql = f'DELETE FROM tarefa WHERE id_tarefa = {int(novo_id)};'
+        sql = 'DELETE FROM tarefa WHERE id_tarefa = %s;'
+        params = (novo_id,) # Vírgula adicionada para definir como uma tupla
         with Database() as db:
-            db.executar(sql)
+            db.executar(sql, params)
+
+    @staticmethod
+    def carregar_tarefa(id):
+        novo_id = id[6:]
+        sql = '''SELECT id_tarefa, titulo_tarefa, data_conclusao FROM tarefa
+        WHERE id_tarefa = %s;'''
+        params = (novo_id, )
+
+        with Database() as db:
+            resultado = db.executar(sql, params)
+
+        if resultado:
+            tarefa_selecionada = resultado[0]
+
+            data_formatada = (
+                tarefa_selecionada['data_conclusao'].strftime('%Y-%m-%d')
+                if isinstance(tarefa_selecionada['data_conclusao'], datetime)
+                else tarefa_selecionada['data_conclusao']
+            )
+
+            return Tarefa(
+                id = tarefa_selecionada['id_tarefa'],
+                titulo = tarefa_selecionada['titulo_tarefa'],
+                data_conclusao=data_formatada
+            )
+
+        return None 
 
     @staticmethod
     def editarTarefas(id, titulo, data):

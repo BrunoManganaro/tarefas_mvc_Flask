@@ -91,7 +91,7 @@ input[type="date"] {
     color-scheme: dark;
 }
 
-body > button {
+body button {
     display: block;
     width: 100%;
     min-height: 54px;
@@ -110,13 +110,13 @@ body > button {
     transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
 
-body > button:hover {
+body button:hover {
     filter: brightness(1.08);
     transform: translateY(-2px);
     box-shadow: 0 10px 24px rgb(105 122 255 / 28%);
 }
 
-body > button:active {
+body button:active {
     transform: translateY(0);
     box-shadow: 0 4px 12px rgb(105 122 255 / 20%);
 }
@@ -140,7 +140,7 @@ a:focus-visible {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 8px;
 
     min-width: 0;
     padding: 15px 16px;
@@ -163,7 +163,6 @@ a:focus-visible {
 
 #listaTarefas a {
     flex-shrink: 0;
-    margin-left: auto;
     padding: 8px 12px;
 
     color: #ffb4bc;
@@ -181,6 +180,50 @@ a:focus-visible {
     color: #fff0f1;
     background: #a63d50;
     border-color: #d26070;
+}
+
+#listaTarefas a[href^="/delete/"] {
+    margin-left: auto;
+}
+
+#listaTarefas a[href^="/edit/"] {
+    color: var(--acento-claro);
+    background: rgb(139 156 255 / 10%);
+    border-color: rgb(139 156 255 / 28%);
+}
+
+#listaTarefas a[href^="/edit/"]:hover {
+    color: #ffffff;
+    background: #6678c8;
+    border-color: #8b9cff;
+}
+
+form > a[href="/"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 54px;
+    margin: 8px 0 30px;
+    padding: 13px 20px;
+
+    color: #dfe5ff;
+    background: var(--superficie);
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    box-shadow: 0 7px 18px rgb(0 0 0 / 12%);
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 750;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+
+form > a[href="/"]:hover {
+    background: var(--superficie-elevada);
+    border-color: var(--acento);
+    transform: translateY(-2px);
 }
 
 @media (max-width: 600px) {

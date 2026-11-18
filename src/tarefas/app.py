@@ -46,35 +46,36 @@ def home():
 def apagar_id_especificado(id = None):
     url = request.path
     Tarefa.apagarTarefas(url)
-    return(redirect(url_for('home')))
+    return redirect(url_for('home'))
+
+    """
+    No PHP %_POST['id'  ]
+    """
 
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 def editar_id_especificado(id = None):
     url = request.path
     
     if request.method == 'POST':
-        titulo_form = request.form['tituloTarefa'] # Casa com o nome do input no form
-        data_conclusao_form = request.form['dataConclusao'] # Casa com o nome do input no form
+        titulo_form = request.form['tituloTarefa']
+        data_conclusao_form = request.form['dataConclusao'] 
 
         data_corrigida = data_conclusao_form or None
-        # 'or' nesse caso é um operador de coalescência -> retorna o 
-        # primeiro valor válido
-
-        # Instanciamos uma nova tarefa com os dados recebidos do form
-        #tarefa = Tarefa(titulo=titulo_form, data_conclusao=data_corrigida)
-
-        # Salvamos a tarefa no banco
+  
         Tarefa.editarTarefas(url, titulo_form, data_corrigida)
 
         return redirect(url_for('home'))
 
+    tarefa_selecionada = Tarefa.carregar_tarefa(url)
+
     return render_template(
         "base.html",
-        titulo_da_pagina="Minha Lista de Tarefas",
+        titulo_da_pagina="Editando tarefa...",
         tarefas_da_pagina={"titulo_tarefa":None, "data_conclusao":None},
         botao_submit="Atualizar",
-        h1_pagina="Edite sua tarefa:",
-        lista="display: none"
+        h1_pagina="Edite sua tarefa: ",
+        lista="display: none",
+        tarefa_edicao = tarefa_selecionada
     )
 
 if __name__ == "__main__":
