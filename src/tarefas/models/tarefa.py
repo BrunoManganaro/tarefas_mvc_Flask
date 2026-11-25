@@ -17,11 +17,11 @@ class Tarefa:
     def salvarTarefa(self):
         """Salva a tarefa no banco de dados."""
 
-        sql = "INSERT INTO tarefa (titulo_tarefa, data_conclusao) VALUES (%s, %s);"
-        params = (self.titulo, self.data_conclusao) # protege contra SQL Injection
-
-        # Gerenciador de contexto (with)
-        # Acessa os métodos __enter__ e __exit__ da classe
+        sql = '''
+        INSERT INTO tarefa (titulo_tarefa, data_conclusao) VALUES (%s, %s);'''
+        params = (self.titulo, self.data_conclusao) 
+        """ Gerenciador de contexto (with)
+        Acessa os métodos __enter__ e __exit__ da classe"""
         with Database() as db:
             db.executar(sql, params)
 
@@ -40,7 +40,7 @@ class Tarefa:
     def apagarTarefas(id):
         novo_id = id[8:]
         sql = 'DELETE FROM tarefa WHERE id_tarefa = %s;'
-        params = (novo_id,) # Vírgula adicionada para definir como uma tupla
+        params = (novo_id,) 
         with Database() as db:
             db.executar(sql, params)
 
@@ -74,12 +74,8 @@ class Tarefa:
     @staticmethod
     def editarTarefas(id, titulo, data):
         novo_id = id[6:]
-        sql = 'UPDATE tarefa SET titulo_tarefa = %s, data_conclusao = %s WHERE id_tarefa = %s;'
+        sql = '''UPDATE tarefa SET titulo_tarefa = %s, 
+        data_conclusao = %s WHERE id_tarefa = %s;'''
         params = (titulo, data, novo_id)
         with Database() as db:
             return(db.executar(sql, params))
-
-
-# Área 13 (testes)
-# tarefa = Tarefa("Minha nova tarefa")
-# arefa.salvarTarefa()

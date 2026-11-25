@@ -16,6 +16,7 @@ class Database:
         self.username = getenv('DB_USER')
         self.password = getenv('DB_PASSWORD')
         self.database = getenv('DB_SCHEMA')
+        self.port = getenv('DB_PORT') or 3306
         self.connection = None
         self.cursos = None
 
@@ -27,7 +28,8 @@ class Database:
                 host = self.host,
                 database = self.database,
                 user = self.username,
-                password = self.password
+                password = self.password,
+                port = self.port
             )
 
             if self.connection.is_connected():
@@ -68,12 +70,10 @@ class Database:
             print(f"Erro de execução: {e}")
             return
 
-    # Método de entrada no contexto (para uso com "with")
     def __enter__(self):
         self.conectar()
         return self
 
-    # Método de saída de contexto (para uso com "with")
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.desconectar()
 
@@ -96,7 +96,6 @@ def init_db(sql_filepath=SQL_PATH):
         )
         cursor = conexao.cursor()
 
-        # Leitura do arquivo de criação do banco
         with open(sql_filepath, "r", encoding = "utf-8") as arquivo:
             sql = arquivo.read()
 
@@ -111,13 +110,3 @@ def init_db(sql_filepath=SQL_PATH):
         print(f"Erro no banco de dados: {e}")
     except FileNotFoundError:
         print("O arquivo especificado não pôde ser encontrado")
-
-
-"""Área 13
-Tudo o que for escrito dessa área
-será lido e executado como string.
-"""
-#db = Database()
-#db.conectar()
-#print(db.executar("SELECT * FROM tipos_combustivel;"))
-#db.desconectar()
